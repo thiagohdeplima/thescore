@@ -2,10 +2,7 @@ use Mix.Config
 
 # Configure your database
 config :the_score, TheScore.Repo,
-  username: "postgres",
-  password: "postgres",
-  database: "the_score_dev",
-  hostname: "localhost",
+  url: System.get_env("DATABASE_URL") || "postgres://postgres:postgres@localhost/the_score_dev",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 

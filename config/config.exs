@@ -14,10 +14,10 @@ config :the_score,
 # Configures the endpoint
 config :the_score, TheScoreWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "h7Yp7c2VaVHR2qC+JyJZlypzuwEC11ffik8AU46GDyzJJmxfv8utsLTePJ8nbWUA",
+  secret_key_base: "ejFuNRcuZSmQW06v80IyopqrsZvQFzwnznkD4PxAOo7rGFXharHe3CZMgop97jO+",
   render_errors: [view: TheScoreWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: TheScore.PubSub,
-  live_view: [signing_salt: "yxmlizuc"]
+  live_view: [signing_salt: "b651DmhF"]
 
 # Configures Elixir's Logger
 config :logger, :console,
