@@ -30,7 +30,7 @@ defmodule TheScore.StatisticsTest do
     end
 
     test "create_player/1 with valid data creates a player" do
-      assert {:ok, %Player{} = player} = Statistics.create_player(@valid_attrs)
+      assert {:ok, %Player{}} = Statistics.create_player(@valid_attrs)
     end
 
     test "create_player/1 with invalid data returns error changeset" do
