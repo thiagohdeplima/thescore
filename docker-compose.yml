@@ -1,0 +1,35 @@
+version: "3.9"
+
+networks:
+  thescore: {}
+
+services:
+  database:
+    ports:
+    - 5432:5432
+    networks:
+    - thescore
+    environment:
+      POSTGRES_DB: appdb
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+    image: postgres:12-alpine
+
+  server:
+    depends_on:
+    - database
+    networks:
+    - thescore
+    build:
+      target: compiler
+      context: "."
+      args: 
+        MIX_ENV: ${THESCORE_MIX_ENV:-dev}
+    ports:
+    - 4000:4000
+    volumes:
+    - .:/srv/app:Z
+    environment:
+      MIX_ENV: ${THESCORE_MIX_ENV:-dev}
+      DATABASE_URL: postgres://user:pass@database/appdb
+    command: sh -c "mix setup && mix phx.server"
