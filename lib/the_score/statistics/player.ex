@@ -1,4 +1,6 @@
 defmodule TheScore.Statistics.Player do
+  @moduledoc "Ecto Schema for Player entity"
+
   use Ecto.Schema
   import Ecto.Changeset
 

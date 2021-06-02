@@ -1,4 +1,6 @@
 defmodule TheScore.Statistics.Factory do
+  @moduledoc false
+
   use ExMachina.Ecto, repo: TheScore.Repo
 
   alias Faker.Person
