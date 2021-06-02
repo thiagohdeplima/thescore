@@ -4,8 +4,8 @@ defmodule TheScore.Statistics do
   """
 
   import Ecto.Query, warn: false
-  alias TheScore.Repo
 
+  alias TheScore.Repo
   alias TheScore.Statistics.Player
 
   @doc """
@@ -17,6 +17,7 @@ defmodule TheScore.Statistics do
       [%Player{}, ...]
 
   """
+  @spec list_players() :: list(%Player{})
   def list_players do
     Repo.all(Player)
   end
@@ -42,13 +43,14 @@ defmodule TheScore.Statistics do
 
   ## Examples
 
-      iex> create_player(%{field: value})
+      iex> create_player(attrs)
       {:ok, %Player{}}
 
-      iex> create_player(%{field: bad_value})
+      iex> create_player(wrong_attrs)
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec create_player(map) ::
   def create_player(attrs \\ %{}) do
     %Player{}
     |> Player.changeset(attrs)
