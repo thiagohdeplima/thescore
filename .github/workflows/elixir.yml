@@ -26,11 +26,11 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
-    - name: check format
-      run: mix format --check-formatted
-
     - name: get dependencies
       run: mix deps.get
+
+    - name: check format
+      run: mix format --check-formatted
 
     - name: check code
       run: mix credo -a
