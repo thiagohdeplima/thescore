@@ -2,61 +2,50 @@ defmodule TheScore.StatisticsTest do
   use TheScore.DataCase
 
   alias TheScore.Statistics
+  alias TheScore.Statistics.Player
 
-  describe "players" do
-    alias TheScore.Statistics.Player
+  describe "list_players/0" do
+    @statistics_list_players
+    test "when have no players returns an empty list"
 
-    @valid_attrs %{}
-    @update_attrs %{}
-    @invalid_attrs %{}
+    @statistics_list_players
+    test "when has players returns a list containing all"
+  end
 
-    def player_fixture(attrs \\ %{}) do
-      {:ok, player} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Statistics.create_player()
+  describe "get_player/1" do
+    @statistics_get_player
+    test "when player_id match with existing player returns they statistics"
 
-      player
-    end
+    @statistics_get_player
+    test "when player_id doesn't match with existing player returns an error"
+  end
 
-    test "list_players/0 returns all players" do
-      player = player_fixture()
-      assert Statistics.list_players() == [player]
-    end
+  describe "create_player/1" do
+    @statistics_create_player
+    test "with valid data creates a player"
 
-    test "get_player!/1 returns the player with given id" do
-      player = player_fixture()
-      assert Statistics.get_player!(player.id) == player
-    end
+    @statistics_create_player
+    test "with invalid data returns an error"
+  end
 
-    test "create_player/1 with valid data creates a player" do
-      assert {:ok, %Player{}} = Statistics.create_player(@valid_attrs)
-    end
+  describe "update_player/1" do
+    @statistics_update_player
+    test "with valid data creates a player"
 
-    test "create_player/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Statistics.create_player(@invalid_attrs)
-    end
+    @statistics_update_player
+    test "with invalid data returns an error"
+  end
 
-    test "update_player/2 with valid data updates the player" do
-      player = player_fixture()
-      assert {:ok, %Player{} = player} = Statistics.update_player(player, @update_attrs)
-    end
+  describe "delete_player/1" do
+    @statistics_delete_player
+    test "set the player status to DELETED"
+  end
 
-    test "update_player/2 with invalid data returns error changeset" do
-      player = player_fixture()
-      assert {:error, %Ecto.Changeset{}} = Statistics.update_player(player, @invalid_attrs)
-      assert player == Statistics.get_player!(player.id)
-    end
-
-    test "delete_player/1 deletes the player" do
-      player = player_fixture()
-      assert {:ok, %Player{}} = Statistics.delete_player(player)
-      assert_raise Ecto.NoResultsError, fn -> Statistics.get_player!(player.id) end
-    end
-
-    test "change_player/1 returns a player changeset" do
-      player = player_fixture()
-      assert %Ecto.Changeset{} = Statistics.change_player(player)
+  describe "change_player/1" do
+    @statistics_change_player
+    test "returns a player changeset" do
+      #assert %Ecto.Changeset{} = Statistics.change_player(player)
     end
   end
 end
+
