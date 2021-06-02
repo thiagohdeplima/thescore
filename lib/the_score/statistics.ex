@@ -88,33 +88,4 @@ defmodule TheScore.Statistics do
         |> Repo.update()
     end
   end
-
-  @doc """
-  Deletes a player.
-
-  ## Examples
-
-      iex> delete_player(player)
-      {:ok, %Player{}}
-
-      iex> delete_player(player)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def delete_player(%Player{} = player) do
-    Repo.delete(player)
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking player changes.
-
-  ## Examples
-
-      iex> change_player(player)
-      %Ecto.Changeset{data: %Player{}}
-
-  """
-  def change_player(%Player{} = player, attrs \\ %{}) do
-    Player.changeset(player, attrs)
-  end
 end

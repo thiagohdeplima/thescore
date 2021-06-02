@@ -93,21 +93,5 @@ defmodule TheScore.StatisticsTest do
         |> Statistics.update_player(data)
     end
   end
-
-  describe "delete_player/1" do
-    @tag :statistics_delete_player
-    test "set the player status to DELETED"
-  end
-
-  describe "change_player/1" do
-    setup do
-      {:ok, player: insert(:player)}
-    end
-
-    @tag :statistics_change_player
-    test "returns a player changeset", %{player: player} do
-      assert %Ecto.Changeset{} = Statistics.change_player(player)
-    end
-  end
 end
 
