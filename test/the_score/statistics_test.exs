@@ -92,7 +92,22 @@ defmodule TheScore.StatisticsTest do
     end
 
     @tag :statistics_update_player
-    test "with invalid data returns an error"
+    test "with invalid data returns an error", %{player: %{id: player_id}} do
+      Enum.each(Player.__schema__(:fields), fn field ->
+        case Player.__schema__(:type, field) do
+          :string ->
+            assert {:error, %Ecto.Changeset{errors: [{^field, {"is invalid", _}}]}} =
+              Statistics.update_player(player_id, %{field => Enum.random([1..1000])})
+
+          :float  ->
+            assert {:error, %Ecto.Changeset{errors: [{^field, {"is invalid", _}}]}} =
+              Statistics.update_player(player_id, %{field => Faker.Person.name()})
+
+          _other ->
+            :next
+        end
+      end)
+    end
 
     @tag :statistics_update_player
     test "when player doesn't exists returns an error", %{data: data} do
