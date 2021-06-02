@@ -2,61 +2,119 @@ defmodule TheScore.StatisticsTest do
   use TheScore.DataCase
 
   alias TheScore.Statistics
+  alias TheScore.Statistics.Player
 
-  describe "players" do
-    alias TheScore.Statistics.Player
+  import TheScore.Statistics.Factory
 
-    @valid_attrs %{}
-    @update_attrs %{}
-    @invalid_attrs %{}
-
-    def player_fixture(attrs \\ %{}) do
-      {:ok, player} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Statistics.create_player()
-
-      player
+  describe "list_players/0" do
+    @tag :statistics_list_players
+    test "when have no players returns an empty list" do
+      assert Statistics.list_players == []
     end
 
-    test "list_players/0 returns all players" do
-      player = player_fixture()
-      assert Statistics.list_players() == [player]
+    @tag :statistics_list_players
+    test "when has players returns a list containing all" do
+      assert %Player{id: player_id} = insert(:player)
+
+      assert [%Player{id: ^player_id}] = Statistics.list_players()
+    end
+  end
+
+  describe "get_player/1" do
+    setup do
+      {:ok, player: insert(:player)}
     end
 
-    test "get_player!/1 returns the player with given id" do
-      player = player_fixture()
-      assert Statistics.get_player!(player.id) == player
+    @tag :statistics_get_player
+    test "when player_id match with existing player returns they statistics", %{player: %{id: player_id}} do
+      assert {:ok, %Player{id: ^player_id}} = Statistics.get_player(player_id)
     end
 
-    test "create_player/1 with valid data creates a player" do
-      assert {:ok, %Player{} = player} = Statistics.create_player(@valid_attrs)
+    @tag :statistics_get_player
+    test "when player_id doesn't match with existing player returns an error" do
+      {:error, :player_not_found} =
+        Ecto.UUID.generate()
+        |> Statistics.get_player()
+    end
+  end
+
+  describe "create_player/1" do
+    setup do
+      data = 
+        build(:player)
+        |> Map.from_struct()
+        |> Map.drop([:__meta__, :id, :inserted_at, :updated_at])      
+      
+      {:ok, data: data}
     end
 
-    test "create_player/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Statistics.create_player(@invalid_attrs)
+    @tag :statistics_create_player
+    test "when player name already exists returns an error", %{data: data} do
+      %Player{name: name} = insert(:player)
+
+      assert {:error, %Ecto.Changeset{errors: [{:name, {"has already been taken", _}}]}} =
+        Statistics.create_player(Map.put(data, :name, name))
     end
 
-    test "update_player/2 with valid data updates the player" do
-      player = player_fixture()
-      assert {:ok, %Player{} = player} = Statistics.update_player(player, @update_attrs)
+    @tag :statistics_create_player
+    test "with valid data creates a player", %{data: data} do
+      assert {:ok, %Player{}} = Statistics.create_player(data)
     end
 
-    test "update_player/2 with invalid data returns error changeset" do
-      player = player_fixture()
-      assert {:error, %Ecto.Changeset{}} = Statistics.update_player(player, @invalid_attrs)
-      assert player == Statistics.get_player!(player.id)
+    @tag :statistics_create_player
+    test "with missing data returns an error", %{data: data} do
+      Map.keys(data)
+      |> Enum.each(fn key ->
+          assert {:error, %Ecto.Changeset{errors: [{^key, {"can't be blank", _}}]}} =
+            Map.drop(data, [key])
+            |> Statistics.create_player()
+      end)
+    end
+  end
+
+  describe "update_player/1" do
+    setup do
+      data = 
+        build(:player)
+        |> Map.from_struct()
+        |> Map.drop([:__meta__, :id, :inserted_at, :updated_at])      
+      
+      {:ok, data: data}
     end
 
-    test "delete_player/1 deletes the player" do
-      player = player_fixture()
-      assert {:ok, %Player{}} = Statistics.delete_player(player)
-      assert_raise Ecto.NoResultsError, fn -> Statistics.get_player!(player.id) end
+    setup do
+      {:ok, player: insert(:player)}
     end
 
-    test "change_player/1 returns a player changeset" do
-      player = player_fixture()
-      assert %Ecto.Changeset{} = Statistics.change_player(player)
+    @tag :statistics_update_player
+    test "with valid data updates a player", %{data: data, player: %{id: player_id}} do
+      assert {:ok, %Player{id: ^player_id}} = Statistics.update_player(player_id, data)
+    end
+
+    @tag :statistics_update_player
+    test "with invalid data returns an error", %{player: %{id: player_id}} do
+      Enum.each(Player.__schema__(:fields), fn field ->
+        case Player.__schema__(:type, field) do
+          :string ->
+            assert {:error, %Ecto.Changeset{errors: [{^field, {"is invalid", _}}]}} =
+              Statistics.update_player(player_id, %{field => Enum.random([1..1000])})
+
+          :float  ->
+            assert {:error, %Ecto.Changeset{errors: [{^field, {"is invalid", _}}]}} =
+              Statistics.update_player(player_id, %{field => Faker.Person.name()})
+
+          _other ->
+            :next
+        end
+      end)
+    end
+
+    @tag :statistics_update_player
+    test "when player doesn't exists returns an error", %{data: data} do
+      assert {:error, :player_not_found} =
+        Ecto.UUID.generate()
+        |> Statistics.update_player(data)
     end
   end
 end
+

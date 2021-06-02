@@ -4,9 +4,11 @@ defmodule TheScore.Statistics do
   """
 
   import Ecto.Query, warn: false
-  alias TheScore.Repo
 
+  alias TheScore.Repo
   alias TheScore.Statistics.Player
+
+  @type player :: %Player{}
 
   @doc """
   Returns the list of players.
@@ -17,38 +19,41 @@ defmodule TheScore.Statistics do
       [%Player{}, ...]
 
   """
+  @spec list_players() :: list(player)
   def list_players do
     Repo.all(Player)
   end
 
   @doc """
-  Gets a single player.
-
-  Raises `Ecto.NoResultsError` if the Player does not exist.
-
-  ## Examples
-
-      iex> get_player!(123)
-      %Player{}
-
-      iex> get_player!(456)
-      ** (Ecto.NoResultsError)
-
+  Gets a single player by their ID.
   """
-  def get_player!(id), do: Repo.get!(Player, id)
+  @spec get_player(Ecto.UUID.t) ::
+    {:ok, player} | {:error, :player_not_found}
+  def get_player(id) do
+    Repo.get(Player, id)
+    |> case do
+      nil ->
+        {:error, :player_not_found}
+
+      player ->
+        {:ok, player}
+    end
+  end
 
   @doc """
   Creates a player.
 
   ## Examples
 
-      iex> create_player(%{field: value})
+      iex> create_player(attrs)
       {:ok, %Player{}}
 
-      iex> create_player(%{field: bad_value})
+      iex> create_player(wrong_attrs)
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec create_player(map) ::
+    {:ok, player} | {:error, Ecto.Changeset.t}
   def create_player(attrs \\ %{}) do
     %Player{}
     |> Player.changeset(attrs)
@@ -60,45 +65,27 @@ defmodule TheScore.Statistics do
 
   ## Examples
 
-      iex> update_player(player, %{field: new_value})
+      iex> update_player(player_id, %{attg: 1})
       {:ok, %Player{}}
 
-      iex> update_player(player, %{field: bad_value})
+      iex> update_player(player_id, %{attg: bad_value})
       {:error, %Ecto.Changeset{}}
 
-  """
-  def update_player(%Player{} = player, attrs) do
-    player
-    |> Player.changeset(attrs)
-    |> Repo.update()
-  end
-
-  @doc """
-  Deletes a player.
-
-  ## Examples
-
-      iex> delete_player(player)
-      {:ok, %Player{}}
-
-      iex> delete_player(player)
-      {:error, %Ecto.Changeset{}}
+      iex> update_player(inexistent_player_id, %{attg: 1})
+      {:error, :player_not_found}
 
   """
-  def delete_player(%Player{} = player) do
-    Repo.delete(player)
-  end
+  @spec update_player(Ecto.UUID.t, map) ::
+    {:ok, player} | {:error, atom}
+  def update_player(player_id, attrs) do
+    case get_player(player_id) do
+      {:error, reason} ->
+        {:error, reason}
 
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking player changes.
-
-  ## Examples
-
-      iex> change_player(player)
-      %Ecto.Changeset{data: %Player{}}
-
-  """
-  def change_player(%Player{} = player, attrs \\ %{}) do
-    Player.changeset(player, attrs)
+      {:ok, player} ->
+        player
+        |> Player.changeset(attrs)
+        |> Repo.update()
+    end
   end
 end
