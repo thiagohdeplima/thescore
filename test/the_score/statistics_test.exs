@@ -49,6 +49,14 @@ defmodule TheScore.StatisticsTest do
     end
 
     @tag :statistics_create_player
+    test "when player name already exists returns an error", %{data: data} do
+      %Player{name: name} = insert(:player)
+
+      assert {:error, %Ecto.Changeset{errors: [{:name, {"has already been taken", _}}]}} =
+        Statistics.create_player(Map.put(data, :name, name))
+    end
+
+    @tag :statistics_create_player
     test "with valid data creates a player", %{data: data} do
       assert {:ok, %Player{}} = Statistics.create_player(data)
     end

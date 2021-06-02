@@ -34,6 +34,7 @@ defmodule TheScore.Statistics.Player do
     player
     |> cast(attrs, fields())
     |> validate_required(fields())
+    |> unique_constraint(:name)
   end
 
   defp fields do
