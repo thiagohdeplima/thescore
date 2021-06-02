@@ -27,8 +27,8 @@ defmodule TheScore.Statistics do
   @doc """
   Gets a single player by their ID.
   """
-  @spec get_player(Ecto.UUID.t) ::
-    {:ok, player} | {:error, :player_not_found}
+  @spec get_player(Ecto.UUID.t()) ::
+          {:ok, player} | {:error, :player_not_found}
   def get_player(id) do
     Repo.get(Player, id)
     |> case do
@@ -53,7 +53,7 @@ defmodule TheScore.Statistics do
 
   """
   @spec create_player(map) ::
-    {:ok, player} | {:error, Ecto.Changeset.t}
+          {:ok, player} | {:error, Ecto.Changeset.t()}
   def create_player(attrs \\ %{}) do
     %Player{}
     |> Player.changeset(attrs)
@@ -75,8 +75,8 @@ defmodule TheScore.Statistics do
       {:error, :player_not_found}
 
   """
-  @spec update_player(Ecto.UUID.t, map) ::
-    {:ok, player} | {:error, atom}
+  @spec update_player(Ecto.UUID.t(), map) ::
+          {:ok, player} | {:error, atom}
   def update_player(player_id, attrs) do
     case get_player(player_id) do
       {:error, reason} ->
