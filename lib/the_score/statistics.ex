@@ -8,6 +8,8 @@ defmodule TheScore.Statistics do
   alias TheScore.Repo
   alias TheScore.Statistics.Player
 
+  @type player :: %Player{}
+
   @doc """
   Returns the list of players.
 
@@ -17,7 +19,7 @@ defmodule TheScore.Statistics do
       [%Player{}, ...]
 
   """
-  @spec list_players() :: list(%Player{})
+  @spec list_players() :: list(player)
   def list_players do
     Repo.all(Player)
   end
@@ -26,7 +28,7 @@ defmodule TheScore.Statistics do
   Gets a single player by their ID.
   """
   @spec get_player(Ecto.UUID.t) ::
-    {:ok, %Player{}} | {:error, :player_not_found}
+    {:ok, player} | {:error, :player_not_found}
   def get_player(id) do
     Repo.get(Player, id)
     |> case do
@@ -51,6 +53,7 @@ defmodule TheScore.Statistics do
 
   """
   @spec create_player(map) ::
+    {:ok, player} | {:error, Ecto.Changeset.t}
   def create_player(attrs \\ %{}) do
     %Player{}
     |> Player.changeset(attrs)
@@ -73,7 +76,7 @@ defmodule TheScore.Statistics do
 
   """
   @spec update_player(Ecto.UUID.t, map) ::
-    {:ok, %Player{}} | {:error, atom}
+    {:ok, player} | {:error, atom}
   def update_player(player_id, attrs) do
     case get_player(player_id) do
       {:error, reason} ->
