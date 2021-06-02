@@ -29,6 +29,12 @@ jobs:
     - name: get dependencies
       run: mix deps.get
 
+    - name: install hex locally
+      run: mix local.hex --force
+
+    - name: install rebar locally
+      run: mix local.rebar --force
+
     - name: check format
       run: mix format --check-formatted
 
