@@ -60,17 +60,28 @@ defmodule TheScore.Statistics do
 
   ## Examples
 
-      iex> update_player(player, %{field: new_value})
+      iex> update_player(player_id, %{attg: 1})
       {:ok, %Player{}}
 
-      iex> update_player(player, %{field: bad_value})
+      iex> update_player(player_id, %{attg: bad_value})
       {:error, %Ecto.Changeset{}}
 
+      iex> update_player(inexistent_player_id, %{attg: 1})
+      {:error, :player_not_found}
+
   """
-  def update_player(%Player{} = player, attrs) do
-    player
-    |> Player.changeset(attrs)
-    |> Repo.update()
+  @spec update_player(Ecto.UUID.t, map) ::
+    {:ok, %Player{}} | {:error, atom}
+  def update_player(player_id, attrs) do
+    case get_player(player_id) do
+      {:error, reason} ->
+        {:error, reason}
+
+      {:ok, player} ->
+        player
+        |> Player.changeset(attrs)
+        |> Repo.update()
+    end
   end
 
   @doc """
