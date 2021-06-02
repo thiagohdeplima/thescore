@@ -54,6 +54,7 @@ defmodule TheScore.MixProject do
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:faker, "~> 0.16", only: :test},
       {:ex_machina, "~> 2.7.0", only: [:test, :dev]},
+      {:ex_doc, "~> 0.24", only: :dev, runtime: false},
     ]
   end
 
