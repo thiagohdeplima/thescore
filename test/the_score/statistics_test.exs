@@ -57,7 +57,7 @@ defmodule TheScore.StatisticsTest do
     test "with missing data returns an error", %{data: data} do
       Map.keys(data)
       |> Enum.each(fn key ->
-          assert {:error, %Ecto.Changeset{errors: [{key, {"can't be blank", _}}]}} =
+          assert {:error, %Ecto.Changeset{errors: [{^key, {"can't be blank", _}}]}} =
             Map.drop(data, [key])
             |> Statistics.create_player()
       end)
