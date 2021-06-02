@@ -49,6 +49,8 @@ defmodule TheScore.MixProject do
       # Test and Dev dependencies
       {:floki, ">= 0.30.0", only: :test},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
+      {:faker, "~> 0.16", only: :test},
+      {:ex_machina, "~> 2.7.0", only: [:test, :dev]},
     ]
   end
 
