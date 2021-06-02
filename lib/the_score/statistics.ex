@@ -22,20 +22,20 @@ defmodule TheScore.Statistics do
   end
 
   @doc """
-  Gets a single player.
-
-  Raises `Ecto.NoResultsError` if the Player does not exist.
-
-  ## Examples
-
-      iex> get_player!(123)
-      %Player{}
-
-      iex> get_player!(456)
-      ** (Ecto.NoResultsError)
-
+  Gets a single player by their ID.
   """
-  def get_player!(id), do: Repo.get!(Player, id)
+  @spec get_player(Ecto.UUID.t) ::
+    {:ok, %Player{}} | {:error, :player_not_found}
+  def get_player(id) do
+    Repo.get(Player, id)
+    |> case do
+      nil ->
+        {:error, :player_not_found}
+
+      player ->
+        {:ok, player}
+    end
+  end
 
   @doc """
   Creates a player.
