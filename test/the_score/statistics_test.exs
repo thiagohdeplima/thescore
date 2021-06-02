@@ -87,7 +87,7 @@ defmodule TheScore.StatisticsTest do
     end
 
     @tag :statistics_update_player
-    test "with valid data creates a player", %{data: data, player: %{id: player_id}} do
+    test "with valid data updates a player", %{data: data, player: %{id: player_id}} do
       assert {:ok, %Player{id: ^player_id}} = Statistics.update_player(player_id, data)
     end
 
