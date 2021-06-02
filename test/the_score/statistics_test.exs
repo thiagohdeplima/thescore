@@ -9,7 +9,7 @@ defmodule TheScore.StatisticsTest do
   describe "list_players/0" do
     @tag :statistics_list_players
     test "when have no players returns an empty list" do
-      assert Statistics.list_players == []
+      assert Statistics.list_players() == []
     end
 
     @tag :statistics_list_players
@@ -26,7 +26,9 @@ defmodule TheScore.StatisticsTest do
     end
 
     @tag :statistics_get_player
-    test "when player_id match with existing player returns they statistics", %{player: %{id: player_id}} do
+    test "when player_id match with existing player returns they statistics", %{
+      player: %{id: player_id}
+    } do
       assert {:ok, %Player{id: ^player_id}} = Statistics.get_player(player_id)
     end
 
@@ -40,11 +42,11 @@ defmodule TheScore.StatisticsTest do
 
   describe "create_player/1" do
     setup do
-      data = 
+      data =
         build(:player)
         |> Map.from_struct()
-        |> Map.drop([:__meta__, :id, :inserted_at, :updated_at])      
-      
+        |> Map.drop([:__meta__, :id, :inserted_at, :updated_at])
+
       {:ok, data: data}
     end
 
@@ -53,7 +55,7 @@ defmodule TheScore.StatisticsTest do
       %Player{name: name} = insert(:player)
 
       assert {:error, %Ecto.Changeset{errors: [{:name, {"has already been taken", _}}]}} =
-        Statistics.create_player(Map.put(data, :name, name))
+               Statistics.create_player(Map.put(data, :name, name))
     end
 
     @tag :statistics_create_player
@@ -65,20 +67,20 @@ defmodule TheScore.StatisticsTest do
     test "with missing data returns an error", %{data: data} do
       Map.keys(data)
       |> Enum.each(fn key ->
-          assert {:error, %Ecto.Changeset{errors: [{^key, {"can't be blank", _}}]}} =
-            Map.drop(data, [key])
-            |> Statistics.create_player()
+        assert {:error, %Ecto.Changeset{errors: [{^key, {"can't be blank", _}}]}} =
+                 Map.drop(data, [key])
+                 |> Statistics.create_player()
       end)
     end
   end
 
   describe "update_player/1" do
     setup do
-      data = 
+      data =
         build(:player)
         |> Map.from_struct()
-        |> Map.drop([:__meta__, :id, :inserted_at, :updated_at])      
-      
+        |> Map.drop([:__meta__, :id, :inserted_at, :updated_at])
+
       {:ok, data: data}
     end
 
@@ -97,11 +99,11 @@ defmodule TheScore.StatisticsTest do
         case Player.__schema__(:type, field) do
           :string ->
             assert {:error, %Ecto.Changeset{errors: [{^field, {"is invalid", _}}]}} =
-              Statistics.update_player(player_id, %{field => Enum.random([1..1000])})
+                     Statistics.update_player(player_id, %{field => Enum.random([1..1000])})
 
-          :float  ->
+          :float ->
             assert {:error, %Ecto.Changeset{errors: [{^field, {"is invalid", _}}]}} =
-              Statistics.update_player(player_id, %{field => Faker.Person.name()})
+                     Statistics.update_player(player_id, %{field => Faker.Person.name()})
 
           _other ->
             :next
@@ -112,9 +114,8 @@ defmodule TheScore.StatisticsTest do
     @tag :statistics_update_player
     test "when player doesn't exists returns an error", %{data: data} do
       assert {:error, :player_not_found} =
-        Ecto.UUID.generate()
-        |> Statistics.update_player(data)
+               Ecto.UUID.generate()
+               |> Statistics.update_player(data)
     end
   end
 end
-

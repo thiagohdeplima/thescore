@@ -23,10 +23,10 @@ insert_players = fn ->
       |> Map.put("r40plus", player["40+"])
       |> Map.put("fum", player["FUM"])
       |> Enum.map(fn
-        {"lng", value} when is_number(value)->
+        {"lng", value} when is_number(value) ->
           {"lng", Integer.to_string(value)}
 
-        {key, value} when is_binary(value)->
+        {key, value} when is_binary(value) ->
           {key, String.replace(value, ",", ".")}
 
         other ->
@@ -37,7 +37,7 @@ insert_players = fn ->
   end)
 end
 
-if TheScore.Statistics.list_players == [] do
+if TheScore.Statistics.list_players() == [] do
   insert_players.()
 else
   Logger.info("Players already inserted")

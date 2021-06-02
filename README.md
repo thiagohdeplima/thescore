@@ -1,3 +1,5 @@
+[![Elixir](https://github.com/thiagohdeplima/thescore/actions/workflows/elixir.yml/badge.svg)](https://github.com/thiagohdeplima/thescore/actions/workflows/elixir.yml)
+
 # theScore "the Rush" Interview Challenge
 At theScore, we are always looking for intelligent, resourceful, full-stack developers to join our growing team. To help us evaluate new talent, we have created this take-home interview question. This question should take you no more than a few hours.
 

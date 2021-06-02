@@ -9,18 +9,18 @@ defmodule TheScore.Statistics.Player do
   schema "players" do
     field :name, :string
     field :team, :string
-    field :pos,  :string
+    field :pos, :string
 
-    field :attg,  :float
-    field :att,   :float
-    field :yds,   :float
-    field :avg,   :float
-    field :ydsg,  :float
-    field :td,    :float
-    field :lng,   :string
-    field :r1st,  :float
+    field :attg, :float
+    field :att, :float
+    field :yds, :float
+    field :avg, :float
+    field :ydsg, :float
+    field :td, :float
+    field :lng, :string
+    field :r1st, :float
     field :r1stp, :float
-    
+
     field :r20plus, :float
     field :r40plus, :float
 

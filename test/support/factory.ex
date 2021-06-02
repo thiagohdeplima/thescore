@@ -20,10 +20,8 @@ defmodule TheScore.Statistics.Factory do
       lng: "#{Enum.random(-1..9)}#{Enum.random(["T", ""])}",
       r1st: Enum.random(-60..1089) / 10,
       r1stp: Enum.random(-60..1089) / 10,
-      
       r20plus: Enum.random(-60..1089) / 10,
       r40plus: Enum.random(-60..1089) / 10,
-  
       fum: Enum.random(-60..1089) / 10
     }
   end

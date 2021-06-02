@@ -1,0 +1,45 @@
+name: Elixir
+
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    env:
+      MIX_ENV: test
+      DATABASE_URL: postgres://user:pass@postgres/appdb
+
+    container:
+      image: elixir:1.12-alpine
+
+    services:
+      postgres:
+        image: postgres:12-alpine
+        ports:
+        - 5432:5432
+        env:
+          POSTGRES_DB: appdb
+          POSTGRES_USER: user
+          POSTGRES_PASSWORD: pass
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: install hex locally
+      run: mix local.hex --force
+
+    - name: install rebar locally
+      run: mix local.rebar --force
+
+    - name: get dependencies
+      run: mix deps.get
+
+    - name: check format
+      run: mix format --check-formatted
+
+    - name: check code
+      run: mix credo -a
+
+    - name: run tests
+      run: mix test
