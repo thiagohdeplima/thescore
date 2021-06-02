@@ -8,7 +8,7 @@ jobs:
 
     env:
       MIX_ENV: test
-      DATABASE_URL: postgres://user:pass@localhost/appdb
+      DATABASE_URL: postgres://user:pass@postgres/appdb
 
     container:
       image: elixir:1.12-alpine
