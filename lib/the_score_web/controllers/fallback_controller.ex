@@ -21,4 +21,11 @@ defmodule TheScoreWeb.FallbackController do
     |> put_view(TheScoreWeb.ErrorView)
     |> render(:"404")
   end
+
+  def call(conn, {:error, :player_not_found}) do
+    conn
+    |> put_status(:not_found)
+    |> put_view(TheScoreWeb.ErrorView)
+    |> render(:"404")
+  end
 end
