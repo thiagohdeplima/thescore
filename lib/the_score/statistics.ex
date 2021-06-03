@@ -11,6 +11,30 @@ defmodule TheScore.Statistics do
   @type player :: %Player{}
 
   @doc """
+  Return an `Scrivener.Page` of players.
+
+  ## Examples
+
+      iex> get_players_page()
+      Scrivener.Page{entries: [%Player{}, ...]}
+  """
+  @spec get_players_page(map) :: Scrivener.Page.t(player)
+  def get_players_page(params \\ %{})
+  def get_players_page(%{page_size: page_size})
+  when page_size > 200 do
+    {:error, :page_size_exceeded}
+  end
+  def get_players_page(%{"page_size" => page_size})
+  when page_size > 200 do
+    {:error, :page_size_exceeded}
+  end
+  def get_players_page(params) do
+    from(Player)
+    |> order_by(asc: :name)
+    |> Repo.paginate(params)
+  end
+
+  @doc """
   Returns the list of players.
 
   ## Examples
