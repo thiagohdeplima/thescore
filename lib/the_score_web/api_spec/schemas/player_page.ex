@@ -50,6 +50,7 @@ defmodule TheScore.ApiSpec.Schemas.PlayerPage do
       total_entries: 1,
       entries: [
         %{
+          id: "afe451ec-f213-4e01-91bf-baa522135624",
           name: "Kenyan Drake",
           team: "MIA",
           pos: "RB",

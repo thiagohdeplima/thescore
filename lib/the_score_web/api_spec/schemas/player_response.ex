@@ -106,6 +106,7 @@ defmodule TheScore.ApiSpec.Schemas.PlayerResponse do
       :fum
     ],
     example: %{
+      id: "afe451ec-f213-4e01-91bf-baa522135624",
       name: "Kenyan Drake",
       team: "MIA",
       pos: "RB",
