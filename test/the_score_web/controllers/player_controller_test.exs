@@ -33,6 +33,7 @@ defmodule TheScoreWeb.PlayerControllerTest do
       assert_schema(page_schema.example, "PlayerPage", api_spec)
     end
 
+    @tag :web
     @tag :api_get_players
     test "returns a players page according schema", %{api_spec: api_spec, conn: conn} do
       path = Routes.player_path(conn, :index)
