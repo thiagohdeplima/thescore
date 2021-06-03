@@ -36,6 +36,13 @@ defmodule TheScore.ApiSpec.Schemas.PlayerPage do
         description: "Total number of entries in all pages"
       },
     },
+    required: [
+      :entries,
+      :page_size,
+      :page_number,
+      :total_pages,
+      :total_entries
+    ],
     example: %{
       page_size: 10,
       page_number: 1,

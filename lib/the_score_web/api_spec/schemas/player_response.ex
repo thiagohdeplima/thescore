@@ -87,6 +87,24 @@ defmodule TheScore.ApiSpec.Schemas.PlayerResponse do
         description: "Rushing Fumbl"
       }
     },
+    required: [
+      :id,
+      :name,
+      :team,
+      :pos,
+      :attg,
+      :att,
+      :yds,
+      :avg,
+      :ydsg,
+      :td,
+      :lng,
+      :r1st,
+      :r1stp,
+      :r20plus,
+      :r40plus,
+      :fum
+    ],
     example: %{
       name: "Kenyan Drake",
       team: "MIA",
