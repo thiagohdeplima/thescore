@@ -26,6 +26,9 @@ defmodule TheScoreWeb.Router do
     pipe_through :api
 
     get "/", OpenApiSpex.Plug.RenderSpec, []
+
+    get "/players", TheScoreWeb.PlayerController, :index
+    get "/players/:player_id", TheScoreWeb.PlayerController, :show
   end
 
   scope "/swagger" do
