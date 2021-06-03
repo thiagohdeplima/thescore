@@ -1,5 +1,6 @@
 defmodule TheScoreWeb.ApiSpec do
-  #alias OpenApiSpex.Components
+  @moduledoc false
+
   alias OpenApiSpex.Info
   alias OpenApiSpex.OpenApi
   alias OpenApiSpex.Paths
