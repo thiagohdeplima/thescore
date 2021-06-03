@@ -8,8 +8,6 @@ defmodule TheScoreWeb.PlayerControllerTest do
   alias TheScore.ApiSpec.Schemas.PlayerPage
   alias TheScore.ApiSpec.Schemas.PlayerResponse
 
-  alias TheScore.Statistics.Player
-
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
   end
@@ -69,7 +67,7 @@ defmodule TheScoreWeb.PlayerControllerTest do
 
     @tag :web
     @tag :api_get_player_by_id
-    test "returns 404 when players doesn't exists", %{player: player = %{id: player_id}, api_spec: api_spec, conn: conn} do
+    test "returns 404 when players doesn't exists", %{conn: conn} do
       path = Routes.player_path(conn, :show, Ecto.UUID.generate())
       conn = get(conn, path)
       
