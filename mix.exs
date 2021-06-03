@@ -48,11 +48,14 @@ defmodule TheScore.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
+      {:open_api_spex, "~> 3.10"},
+      {:scrivener_ecto, "~> 2.0"},
 
       # Test and Dev dependencies
       {:floki, ">= 0.30.0", only: :test},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:faker, "~> 0.16", only: :test},
+      {:stream_data, "~> 0.5", only: :test},
       {:ex_machina, "~> 2.7.0", only: [:test, :dev]},
       {:ex_doc, "~> 0.24", only: :dev, runtime: false},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false}
