@@ -124,8 +124,7 @@ defmodule TheScore.StatisticsTest do
   describe "get_players_page/1" do
     @tag :get_players_page
     test "when have no players returns a empty page" do
-      assert %Scrivener.Page{total_entries: 0} =
-        Statistics.get_players_page()
+      assert %Scrivener.Page{total_entries: 0} = Statistics.get_players_page()
     end
 
     @tag :get_players_page
@@ -133,7 +132,7 @@ defmodule TheScore.StatisticsTest do
       insert_list(50, :player)
 
       assert %Scrivener.Page{entries: players, total_entries: total_entries} =
-        Statistics.get_players_page()
+               Statistics.get_players_page()
 
       assert 50 == total_entries
 
@@ -142,17 +141,17 @@ defmodule TheScore.StatisticsTest do
 
     @tag :get_players_page
     property "changes page_size according params" do
-      check all page_size <- integer(1..100) do
+      check all(page_size <- integer(1..100)) do
         assert %Scrivener.Page{page_size: ^page_size} =
-          Statistics.get_players_page(%{"page_size" => page_size})
+                 Statistics.get_players_page(%{"page_size" => page_size})
       end
     end
 
     @tag :get_players_page
     property "when page_size is greather than 200 returns error" do
-      check all page_size <- integer(201..1_000_000) do
+      check all(page_size <- integer(201..1_000_000)) do
         assert {:error, :page_size_exceeded} =
-          Statistics.get_players_page(%{"page_size" => page_size})
+                 Statistics.get_players_page(%{"page_size" => page_size})
       end
     end
   end

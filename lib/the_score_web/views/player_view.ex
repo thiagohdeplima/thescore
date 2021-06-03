@@ -8,7 +8,6 @@ defmodule TheScoreWeb.PlayerView do
       page_number: page.page_number,
       total_pages: page.total_pages,
       total_entries: page.total_entries,
- 
       entries: render_many(page.entries, PlayerView, "player.json")
     }
   end
@@ -20,11 +19,9 @@ defmodule TheScoreWeb.PlayerView do
   def render("player.json", %{player: player}) do
     %{
       id: player.id,
-
       name: player.name,
       team: player.team,
       pos: player.pos,
-        
       attg: player.attg,
       att: player.att,
       yds: player.yds,
@@ -34,10 +31,8 @@ defmodule TheScoreWeb.PlayerView do
       lng: player.lng,
       r1st: player.r1st,
       r1stp: player.r1stp,
-        
       r20plus: player.r20plus,
       r40plus: player.r40plus,
-        
       fum: player.fum
     }
   end

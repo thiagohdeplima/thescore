@@ -25,7 +25,6 @@ defmodule TheScore.ApiSpec.Operations.Player do
           name: "page_size",
           description: "Max players in page"
         },
-
         %Parameter{
           in: :query,
           name: "page_number",

@@ -34,7 +34,7 @@ defmodule TheScore.ApiSpec.Schemas.PlayerPage do
       total_entries: %Schema{
         type: :integer,
         description: "Total number of entries in all pages"
-      },
+      }
     },
     required: [
       :entries,

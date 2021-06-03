@@ -18,10 +18,9 @@ defmodule TheScoreWeb.PlayerControllerTest do
 
   setup do
     {:ok,
-      api_spec: TheScoreWeb.ApiSpec.spec(),
-      page_schema: PlayerPage.schema(),
-      player_schema: PlayerResponse.schema()
-    }
+     api_spec: TheScoreWeb.ApiSpec.spec(),
+     page_schema: PlayerPage.schema(),
+     player_schema: PlayerResponse.schema()}
   end
 
   describe "GET /api/players" do
@@ -49,13 +48,20 @@ defmodule TheScoreWeb.PlayerControllerTest do
 
     @tag :web
     @tag :api_get_player_by_id
-    test "documentation must match with schema", %{api_spec: api_spec, player_schema: player_schema} do
+    test "documentation must match with schema", %{
+      api_spec: api_spec,
+      player_schema: player_schema
+    } do
       assert_schema(player_schema.example, "PlayerResponse", api_spec)
     end
 
     @tag :web
     @tag :api_get_player_by_id
-    test "returns the player matching with ID", %{player: %{name: player_name, id: player_id}, api_spec: api_spec, conn: conn} do
+    test "returns the player matching with ID", %{
+      player: %{name: player_name, id: player_id},
+      api_spec: api_spec,
+      conn: conn
+    } do
       path = Routes.player_path(conn, :show, player_id)
       conn = get(conn, path)
       json = json_response(conn, 200)
@@ -70,7 +76,7 @@ defmodule TheScoreWeb.PlayerControllerTest do
     test "returns 404 when players doesn't exists", %{conn: conn} do
       path = Routes.player_path(conn, :show, Ecto.UUID.generate())
       conn = get(conn, path)
-      
+
       assert json_response(conn, 404)
     end
   end
