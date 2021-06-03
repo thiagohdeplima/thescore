@@ -55,6 +55,7 @@ defmodule TheScore.MixProject do
       {:floki, ">= 0.30.0", only: :test},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:faker, "~> 0.16", only: :test},
+      {:stream_data, "~> 0.5", only: :test},
       {:ex_machina, "~> 2.7.0", only: [:test, :dev]},
       {:ex_doc, "~> 0.24", only: :dev, runtime: false},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false}
