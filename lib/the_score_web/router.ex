@@ -12,12 +12,26 @@ defmodule TheScoreWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+
+    plug OpenApiSpex.Plug.PutApiSpec, module: TheScoreWeb.ApiSpec
   end
 
   scope "/", TheScoreWeb do
     pipe_through :browser
 
     live "/", PageLive, :index
+  end
+
+  scope "/api" do
+    pipe_through :api
+
+    get "/", OpenApiSpex.Plug.RenderSpec, []
+  end
+
+  scope "/swagger" do
+    pipe_through :browser
+
+    get "/", OpenApiSpex.Plug.SwaggerUI, path: "/api"
   end
 
   # Other scopes may use custom stacks.
