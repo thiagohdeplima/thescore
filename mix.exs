@@ -49,6 +49,7 @@ defmodule TheScore.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:open_api_spex, "~> 3.10"},
+      {:scrivener_ecto, "~> 2.0"},
 
       # Test and Dev dependencies
       {:floki, ">= 0.30.0", only: :test},
