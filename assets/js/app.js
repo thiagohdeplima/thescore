@@ -37,3 +37,52 @@ liveSocket.connect()
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
 
+function prepareCsvFromPlayersTable() {
+  const rows = document.getElementById("players");
+  const columns = document.getElementById("table-columns");
+
+  var csvHeaders = [];
+  var csvRows = "";
+  var csvContent;
+
+  for(var i = 0; i < columns.childElementCount; i++) {
+    if(columns.children[i].outerText === "") {
+      csvHeaders.push("Name")
+    }
+    else {
+      csvHeaders.push(columns.children[i].outerText.replace(" ⧫", ""));
+    }
+  };
+
+  for(var i = 0; i < rows.childElementCount; i++) {
+    csvRows += rows.children[i].outerText.split("\t").join(",") + "\n";
+  }
+
+  csvContent = csvHeaders.join(",") + "\n" + csvRows
+
+  return csvContent;
+}
+
+function savePreparedCSV(preparedCsv) {
+  const downloadCSVLink = document.createElement("a");
+  const downloadableCSV = new Blob([preparedCsv], {type: "text/csv"});
+
+  downloadCSVLink.style.display = "none";
+
+  document.body.appendChild(downloadCSVLink);
+
+  downloadCSVLink.download = 'nft-expor.csv';
+  downloadCSVLink.href = window.URL.createObjectURL(downloadableCSV);
+
+  downloadCSVLink.click();
+}
+
+function exportToCsv() {
+  let csvContent = prepareCsvFromPlayersTable();
+
+  savePreparedCSV(csvContent);
+};
+
+const btnDownload = document.getElementById("btnDownload");
+
+btnDownload.addEventListener('click', exportToCsv, false);
