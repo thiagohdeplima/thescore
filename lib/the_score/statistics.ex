@@ -31,11 +31,53 @@ defmodule TheScore.Statistics do
     {:error, :page_size_exceeded}
   end
 
-  def get_players_page(params) do
+  def get_players_page(%{"name" => name} = params) do
     from(Player)
+    |> where([p], like(p.name, ^"#{name}%"))
     |> order_by(asc: :name)
     |> Repo.paginate(params)
   end
+
+  def get_players_page(%{name: name} = params) do
+    from(Player)
+    |> where([p], ilike(p.name, ^"#{name}%"))
+    |> order_by(asc: :name)
+    |> Repo.paginate(params)
+  end
+
+  def get_players_page(params) do
+    from(Player)
+    |> page_ordenation(params)
+    |> Repo.paginate(params)
+  end
+
+  defp page_ordenation(query, %{"sort_field" => field, "sort_direction" => direction}) do
+    case {field, direction} do
+      {"yds", "asc"} ->
+        order_by(query, asc: :yds)
+
+      {"yds", "desc"} ->
+        order_by(query, desc: :yds)
+
+      {"td", "asc"} ->
+        order_by(query, asc: :td)
+
+      {"td", "desc"} ->
+        order_by(query, desc: :td)
+
+      {"lng", "asc"} ->
+        order_by(query, fragment("SUBSTRING(lng FROM ?)::INT ASC", "(-?[0-9]+)"))
+
+      {"lng", "desc"} ->
+        order_by(query, fragment("SUBSTRING(lng FROM ?)::INT DESC", "(-?[0-9]+)"))
+
+      _other ->
+        order_by(query, asc: :name)
+    end
+  end
+
+  defp page_ordenation(query, _),
+    do: order_by(query, asc: :name)
 
   @doc """
   Returns the list of players.

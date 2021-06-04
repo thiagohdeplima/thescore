@@ -140,6 +140,17 @@ defmodule TheScore.StatisticsTest do
     end
 
     @tag :get_players_page
+    test "when params has a name returns a filtered result" do
+      assert [%Player{id: player_id, name: player_name} | _] = insert_list(50, :player)
+
+      assert %Scrivener.Page{entries: [%Player{id: ^player_id}], total_entries: 1} =
+               Statistics.get_players_page(%{name: player_name})
+
+      assert %Scrivener.Page{entries: [%Player{id: ^player_id}], total_entries: 1} =
+               Statistics.get_players_page(%{"name" => player_name})
+    end
+
+    @tag :get_players_page
     property "changes page_size according params" do
       check all(page_size <- integer(1..100)) do
         assert %Scrivener.Page{page_size: ^page_size} =
@@ -153,6 +164,61 @@ defmodule TheScore.StatisticsTest do
         assert {:error, :page_size_exceeded} =
                  Statistics.get_players_page(%{"page_size" => page_size})
       end
+    end
+
+    @tag :get_players_page
+    test "when user request to sort returns sorted content" do
+      sorted =
+        insert_list(20, :player)
+        |> Enum.map(&Map.get(&1, :yds))
+        |> Enum.sort()
+
+      assert %Scrivener.Page{entries: entries} =
+               Statistics.get_players_page(%{"sort_field" => "yds", "sort_direction" => "asc"})
+
+      assert ^sorted = Enum.map(entries, &Map.get(&1, :yds))
+
+      assert %Scrivener.Page{entries: entries} =
+               Statistics.get_players_page(%{"sort_field" => "yds", "sort_direction" => "desc"})
+
+      assert ^sorted = Enum.map(entries, &Map.get(&1, :yds)) |> Enum.reverse()
+    end
+
+    @tag :get_players_page
+    test "sort by lng field returns correctly sorted" do
+      treatment_function = fn item ->
+        try do
+          item
+          |> String.replace(~r/[^0-9,-]/, "")
+          |> String.to_float()
+        rescue
+          ArgumentError ->
+            item
+            |> String.replace(~r/[^0-9,-]/, "")
+            |> String.to_integer()
+        end
+      end
+
+      sorted =
+        insert_list(20, :player)
+        |> Enum.map(&Map.get(&1, :lng))
+        |> Enum.sort_by(treatment_function)
+        |> Enum.map(treatment_function)
+
+      assert %Scrivener.Page{entries: entries} =
+               Statistics.get_players_page(%{"sort_field" => "lng", "sort_direction" => "asc"})
+
+      assert ^sorted =
+               Enum.map(entries, &Map.get(&1, :lng))
+               |> Enum.map(treatment_function)
+
+      assert %Scrivener.Page{entries: entries} =
+               Statistics.get_players_page(%{"sort_field" => "lng", "sort_direction" => "desc"})
+
+      assert ^sorted =
+               Enum.map(entries, &Map.get(&1, :lng))
+               |> Enum.map(treatment_function)
+               |> Enum.reverse()
     end
   end
 end
