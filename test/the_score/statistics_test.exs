@@ -174,12 +174,12 @@ defmodule TheScore.StatisticsTest do
         |> Enum.sort()
 
       assert %Scrivener.Page{entries: entries} =
-        Statistics.get_players_page(%{"sort_field" => "yds", "sort_direction" => "asc"})
+               Statistics.get_players_page(%{"sort_field" => "yds", "sort_direction" => "asc"})
 
       assert ^sorted = Enum.map(entries, &Map.get(&1, :yds))
 
       assert %Scrivener.Page{entries: entries} =
-        Statistics.get_players_page(%{"sort_field" => "yds", "sort_direction" => "desc"})
+               Statistics.get_players_page(%{"sort_field" => "yds", "sort_direction" => "desc"})
 
       assert ^sorted = Enum.map(entries, &Map.get(&1, :yds)) |> Enum.reverse()
     end
@@ -206,19 +206,19 @@ defmodule TheScore.StatisticsTest do
         |> Enum.map(treatment_function)
 
       assert %Scrivener.Page{entries: entries} =
-        Statistics.get_players_page(%{"sort_field" => "lng", "sort_direction" => "asc"})
+               Statistics.get_players_page(%{"sort_field" => "lng", "sort_direction" => "asc"})
 
       assert ^sorted =
-        Enum.map(entries, &Map.get(&1, :lng))
-        |> Enum.map(treatment_function)
+               Enum.map(entries, &Map.get(&1, :lng))
+               |> Enum.map(treatment_function)
 
       assert %Scrivener.Page{entries: entries} =
-        Statistics.get_players_page(%{"sort_field" => "lng", "sort_direction" => "desc"})
+               Statistics.get_players_page(%{"sort_field" => "lng", "sort_direction" => "desc"})
 
       assert ^sorted =
-        Enum.map(entries, &Map.get(&1, :lng))
-        |> Enum.map(treatment_function)
-        |> Enum.reverse()
+               Enum.map(entries, &Map.get(&1, :lng))
+               |> Enum.map(treatment_function)
+               |> Enum.reverse()
     end
   end
 end

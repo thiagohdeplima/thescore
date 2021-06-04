@@ -32,13 +32,13 @@ defmodule TheScoreWeb.PlayerLiveTest do
       value = %{
         "_target" => ["player_name"],
         "player_name" => last_player_name
-      }        
+      }
 
       Enum.each(players, fn
         %{name: ^last_player_name} ->
           assert render_change(view, event, value) =~ last_player_name
 
-        player -> 
+        player ->
           refute render_change(view, event, value) =~ player.name
       end)
     end

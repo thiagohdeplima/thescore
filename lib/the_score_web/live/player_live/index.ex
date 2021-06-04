@@ -7,7 +7,7 @@ defmodule TheScoreWeb.PlayerLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    socket = 
+    socket =
       socket
       |> assign(:players, [])
       |> assign(:player_name, "")
@@ -30,8 +30,12 @@ defmodule TheScoreWeb.PlayerLive.Index do
   end
 
   @impl true
-  def handle_event("filter-by-player-name", %{"_target" => ["player_name"], "player_name" => player_name}, socket) do
-    socket = 
+  def handle_event(
+        "filter-by-player-name",
+        %{"_target" => ["player_name"], "player_name" => player_name},
+        socket
+      ) do
+    socket =
       socket
       |> assign(:page_number, 1)
       |> assign(:player_name, player_name)
@@ -43,7 +47,7 @@ defmodule TheScoreWeb.PlayerLive.Index do
 
   @impl true
   def handle_event("sort", %{"sort" => field}, socket) do
-    direction = 
+    direction =
       case socket do
         %{assigns: %{sort_direction: "asc"}} ->
           "desc"
@@ -52,7 +56,7 @@ defmodule TheScoreWeb.PlayerLive.Index do
           "asc"
       end
 
-    socket = 
+    socket =
       socket
       |> assign(:page_number, 1)
       |> assign(:sort_field, field)
@@ -65,7 +69,7 @@ defmodule TheScoreWeb.PlayerLive.Index do
 
   @impl true
   def handle_event("load-more-players", _params, socket) do
-    socket = 
+    socket =
       socket
       |> assign(:update_action, "append")
       |> get_players_page()

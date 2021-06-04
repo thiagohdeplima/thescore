@@ -54,30 +54,30 @@ defmodule TheScore.Statistics do
   defp page_ordenation(query, %{"sort_field" => field, "sort_direction" => direction}) do
     case {field, direction} do
       {"yds", "asc"} ->
-        order_by(query, [asc: :yds])
+        order_by(query, asc: :yds)
 
       {"yds", "desc"} ->
-        order_by(query, [desc: :yds])
+        order_by(query, desc: :yds)
 
       {"td", "asc"} ->
-        order_by(query, [asc: :td])
+        order_by(query, asc: :td)
 
       {"td", "desc"} ->
-        order_by(query, [desc: :td])
+        order_by(query, desc: :td)
 
       {"lng", "asc"} ->
         order_by(query, fragment("SUBSTRING(lng FROM ?)::INT ASC", "(-?[0-9]+)"))
-  
+
       {"lng", "desc"} ->
         order_by(query, fragment("SUBSTRING(lng FROM ?)::INT DESC", "(-?[0-9]+)"))
 
       _other ->
-        order_by(query, [asc: :name])
+        order_by(query, asc: :name)
     end
   end
 
   defp page_ordenation(query, _),
-    do: order_by(query, [asc: :name])
+    do: order_by(query, asc: :name)
 
   @doc """
   Returns the list of players.
