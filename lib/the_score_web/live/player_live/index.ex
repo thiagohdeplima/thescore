@@ -9,6 +9,8 @@ defmodule TheScoreWeb.PlayerLive.Index do
       socket
       |> assign(:players, [])
       |> assign(:player_name, "")
+      |> assign(:sort_field, "name")
+      |> assign(:sort_direction, "asc")
       |> assign(:update_action, "append")
 
     {:ok, socket}
@@ -38,6 +40,28 @@ defmodule TheScoreWeb.PlayerLive.Index do
   end
 
   @impl true
+  def handle_event("sort", %{"sort" => field}, socket) do
+    direction = 
+      case socket do
+        %{assigns: %{sort_direction: "asc"}} ->
+          "desc"
+
+        _ ->
+          "asc"
+      end
+
+    socket = 
+      socket
+      |> assign(:page_number, 1)
+      |> assign(:sort_field, field)
+      |> assign(:sort_direction, direction)
+      |> assign(:update_action, "replace")
+      |> get_players_page()
+
+    {:noreply, socket}
+  end
+
+  @impl true
   def handle_event("load-more-players", _params, socket) do
     socket = 
       socket
@@ -54,6 +78,8 @@ defmodule TheScoreWeb.PlayerLive.Index do
       else
         %{page_size: 100, page: page_number}
       end
+      |> Map.put("sort_field", assigns.sort_field)
+      |> Map.put("sort_direction", assigns.sort_direction)
 
     assign(socket, players: Statistics.get_players_page(params))
   end
