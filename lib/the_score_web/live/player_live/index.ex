@@ -1,4 +1,6 @@
 defmodule TheScoreWeb.PlayerLive.Index do
+  @moduledoc false
+
   use TheScoreWeb, :live_view
 
   alias TheScore.Statistics
@@ -73,10 +75,10 @@ defmodule TheScoreWeb.PlayerLive.Index do
 
   defp get_players_page(%{assigns: assigns = %{page_number: page_number}} = socket) do
     params =
-      if assigns.player_name not in [nil, ""] do
-        %{page_size: 100, page: page_number, name: assigns.player_name}
-      else
+      if assigns.player_name in [nil, ""] do
         %{page_size: 100, page: page_number}
+      else
+        %{page_size: 100, page: page_number, name: assigns.player_name}
       end
       |> Map.put("sort_field", assigns.sort_field)
       |> Map.put("sort_direction", assigns.sort_direction)
