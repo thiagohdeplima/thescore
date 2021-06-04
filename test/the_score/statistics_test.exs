@@ -140,6 +140,17 @@ defmodule TheScore.StatisticsTest do
     end
 
     @tag :get_players_page
+    test "when params has a name returns a filtered result" do
+      assert [%Player{id: player_id, name: player_name} | _] = insert_list(50, :player)
+
+      assert %Scrivener.Page{entries: [%Player{id: ^player_id}], total_entries: 1} =
+               Statistics.get_players_page(%{name: player_name})
+
+      assert %Scrivener.Page{entries: [%Player{id: ^player_id}], total_entries: 1} =
+               Statistics.get_players_page(%{"name" => player_name})
+    end
+
+    @tag :get_players_page
     property "changes page_size according params" do
       check all(page_size <- integer(1..100)) do
         assert %Scrivener.Page{page_size: ^page_size} =

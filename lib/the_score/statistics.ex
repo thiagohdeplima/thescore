@@ -31,6 +31,20 @@ defmodule TheScore.Statistics do
     {:error, :page_size_exceeded}
   end
 
+  def get_players_page(%{"name" => name} = params) do
+    from(Player)
+    |> where([p], like(p.name, ^"#{name}%"))
+    |> order_by(asc: :name)
+    |> Repo.paginate(params)
+  end
+
+  def get_players_page(%{name: name} = params) do
+    from(Player)
+    |> where([p], ilike(p.name, ^"#{name}%"))
+    |> order_by(asc: :name)
+    |> Repo.paginate(params)
+  end
+
   def get_players_page(params) do
     from(Player)
     |> order_by(asc: :name)
