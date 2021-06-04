@@ -50,9 +50,9 @@ defmodule TheScoreWeb.PlayerLive.Index do
   defp get_players_page(%{assigns: assigns = %{page_number: page_number}} = socket) do
     params =
       if assigns.player_name not in [nil, ""] do
-        %{page: page_number, name: assigns.player_name}
+        %{page_size: 100, page: page_number, name: assigns.player_name}
       else
-        %{page: page_number}
+        %{page_size: 100, page: page_number}
       end
 
     assign(socket, players: Statistics.get_players_page(params))
