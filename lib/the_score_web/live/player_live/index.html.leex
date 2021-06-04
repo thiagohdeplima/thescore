@@ -1,25 +1,25 @@
 <table class="table table-striped table-hover">
   <thead>
-    <tr>
+    <tr id="table-columns">
       <th class="text-right">
       <form phx-change="filter-by-player-name">
         <input class="form-control form-control-sm" id="player_name" name="player_name" placeholder="Player name" type="text" value="<%= @player_name %>" />
       </form>
       </th>
-      <th data-bs-toggle="tooltip" data-bs-placement="bottom" title="Player's team abbreviation">Team</th>
-      <th data-bs-toggle="tooltip" data-bs-placement="bottom" title="Player's postion">Pos</th>
-      <th data-bs-toggle="tooltip" data-bs-placement="bottom" title="Rushing Attempts Per Game Average">Att/G</th>
-      <th data-bs-toggle="tooltip" data-bs-placement="bottom" title="Rushing Attempts">Att</th>
-      <th data-bs-toggle="tooltip" data-bs-placement="bottom" title="Total Rushing Yards">Yds</th>
-      <th data-bs-toggle="tooltip" data-bs-placement="bottom" title="Rushing Average Yards Per Attempt">Avg</th>
-      <th data-bs-toggle="tooltip" data-bs-placement="bottom" title="Rushing Yards Per Game">Yds/G</th>
-      <th data-bs-toggle="tooltip" data-bs-placement="bottom" title="Total Rushing Touchdowns">TD</th>
-      <th data-bs-toggle="tooltip" data-bs-placement="bottom" title="Longest Rush. A T represents a touchdown occurred">Lng</th>
-      <th data-bs-toggle="tooltip" data-bs-placement="bottom" title="Rushing First Downs">1st</th>
-      <th data-bs-toggle="tooltip" data-bs-placement="bottom" title="Rushing First Down Percentage">1st%</th>
-      <th data-bs-toggle="tooltip" data-bs-placement="bottom" title="Rushing 20+ Yards Each">20+</th>
-      <th data-bs-toggle="tooltip" data-bs-placement="bottom" title="Rushing 40+ Yards Each">40+</th>
-      <th data-bs-toggle="tooltip" data-bs-placement="bottom" title="Rushing Fumbles">FUM</th>
+      <th data-bs-toggle="tooltip" title="Player's team abbreviation">Team</th>
+      <th data-bs-toggle="tooltip" title="Player's postion">Pos</th>
+      <th data-bs-toggle="tooltip" title="Rushing Attempts Per Game Average">Att/G</th>
+      <th data-bs-toggle="tooltip" title="Rushing Attempts">Att</th>
+      <th data-bs-toggle="tooltip" title="Total Rushing Yards" phx-value-sort="yds" phx-click="sort">Yds ⧫</th>
+      <th data-bs-toggle="tooltip" title="Rushing Average Yards Per Attempt">Avg</th>
+      <th data-bs-toggle="tooltip" title="Rushing Yards Per Game">Yds/G</th>
+      <th data-bs-toggle="tooltip" title="Total Rushing Touchdowns" phx-value-sort="td" phx-click="sort">TD ⧫</th>
+      <th data-bs-toggle="tooltip" title="Longest Rush. A T represents a touchdown occurred" phx-value-sort="lng" phx-click="sort">Lng ⧫</th>
+      <th data-bs-toggle="tooltip" title="Rushing First Downs">1st</th>
+      <th data-bs-toggle="tooltip" title="Rushing First Down Percentage">1st%</th>
+      <th data-bs-toggle="tooltip" title="Rushing 20+ Yards Each">20+</th>
+      <th data-bs-toggle="tooltip" title="Rushing 40+ Yards Each">40+</th>
+      <th data-bs-toggle="tooltip" title="Rushing Fumbles">FUM</th>
     </tr>
   </thead>
   <tbody data-page-number="<%= @page_number %>" phx-update="<%= @update_action %>" id="players">
