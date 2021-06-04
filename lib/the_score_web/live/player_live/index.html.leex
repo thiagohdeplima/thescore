@@ -1,0 +1,52 @@
+<h1>Listing Players</h1>
+
+<form phx-change="filter-by-player-name">
+  <input id="player_name" name="player_name" placeholder="Search by player name" type="text" value="<%= @player_name %>" />
+</form>
+
+<table>
+  <thead>
+    <tr>
+      <th>name</th>
+      <th>team</th>
+      <th>pos</th>
+      <th>attg</th>
+      <th>att</th>
+      <th>yds</th>
+      <th>avg</th>
+      <th>ydsg</th>
+      <th>td</th>
+      <th>lng</th>
+      <th>r1st</th>
+      <th>r1stp</th>
+      <th>r20plus</th>
+      <th>r40plus</th>
+      <th>fum</th>
+    </tr>
+  </thead>
+  <tbody data-page-number="<%= @page_number %>" phx-update="<%= @update_action %>" id="players">
+    <%= for player <- @players.entries do %>
+      <tr id="player-<%= player.id %>">
+        <td><%= player.name %></td>
+        <td><%= player.team %></td>
+        <td><%= player.pos %></td>
+        <td><%= player.attg %></td>
+        <td><%= player.att %></td>
+        <td><%= player.yds %></td>
+        <td><%= player.avg %></td>
+        <td><%= player.ydsg %></td>
+        <td><%= player.td %></td>
+        <td><%= player.lng %></td>
+        <td><%= player.r1st %></td>
+        <td><%= player.r1stp %></td>
+        <td><%= player.r20plus %></td>
+        <td><%= player.r40plus %></td>
+        <td><%= player.fum %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<button phx-disable-with="loading..." id="page-<%= @page_number %>" phx-click="load-more-players" phx-target="#page-<%= @page_number %>">
+  LOAD MORE
+</button>

@@ -20,6 +20,8 @@ defmodule TheScoreWeb.Router do
     pipe_through :browser
 
     live "/", PageLive, :index
+
+    live "/players", PlayerLive.Index, :index
   end
 
   scope "/api" do
