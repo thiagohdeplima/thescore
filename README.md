@@ -56,4 +56,12 @@ We will evaluate you on your ability to solve the problem defined in the require
 If you have any questions regarding requirements, do not hesitate to email your contact at theScore for clarification.
 
 ### Installation and running this solution
-... TODO
+In order to turn easier to run it, the original `docker-compose` was adapted to run both application and database.
+
+So, to run this application, just run:
+
+```bash
+docker-compose up
+```
+
+After it, access http://localhost:4000
