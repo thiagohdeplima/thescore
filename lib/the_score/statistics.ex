@@ -157,4 +157,14 @@ defmodule TheScore.Statistics do
         |> Repo.update()
     end
   end
+
+  @spec get_total_yds_by_team() :: list(map)
+  def get_total_yds_by_team() do
+    from(p in Player, select: {p.team, sum(p.yds)})
+    |> group_by([p], p.team)
+    |> Repo.all()
+    |> Enum.map(fn {team, yds} ->
+      %{team: team, yds: yds}
+    end)
+  end
 end

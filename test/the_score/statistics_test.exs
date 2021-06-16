@@ -8,6 +8,32 @@ defmodule TheScore.StatisticsTest do
 
   import TheScore.Statistics.Factory
 
+  describe "get_total_yds_by_team/1" do
+    setup do
+      {:ok, %{teams: ["NL", "TH"]}}
+    end
+
+    setup %{teams: teams} do
+      players = 
+        Enum.map(teams, fn team ->
+          insert_list(10, :player, yds: 10, team: team)
+        end)
+
+      {:ok, players: players}
+    end 
+
+    @tag :statistics_get_total_yds_by_team
+    test "returns a sum of the yds group by team", %{teams: teams} do
+      result = Statistics.get_total_yds_by_team()
+
+      assert length(result) == length(teams)
+
+      Enum.each(result, fn item ->
+        assert item.yds == 100
+      end)
+    end
+  end
+
   describe "list_players/0" do
     @tag :statistics_list_players
     test "when have no players returns an empty list" do
