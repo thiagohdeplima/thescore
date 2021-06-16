@@ -21,6 +21,7 @@ defmodule TheScoreWeb.Router do
 
     live "/", PageLive, :index
 
+    live "/teams", TeamsLive.Index, :index
     live "/players", PlayerLive.Index, :index
   end
 

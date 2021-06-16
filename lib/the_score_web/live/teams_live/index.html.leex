@@ -1,0 +1,16 @@
+<table class="table table-striped table-hover">
+  <thead>
+    <tr id="table-columns">
+      <th class="text-right">Team</th>
+      <th>YDS</th>
+    </tr>
+  </thead>
+  <tbody id="teams">
+    <%= for team <- @teams do %>
+      <tr>
+        <td class="text-right"><%= team.team %></td>
+        <td><%= team.yds %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
